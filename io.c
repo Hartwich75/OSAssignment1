@@ -47,5 +47,42 @@ write_string(char* s) {
  */
 int
 write_int(int n) {
-  return EOF;
+    //convert int to string
+    if (n == 0) {
+        write_char('0');
+        return 0;
+    }
+    char buffer[12];
+    int i = 0;
+    int start = 0;
+    if (n < 0) {
+        buffer[0] = '-';
+        n = -n;
+        i++;
+        start = 1; // Start of the digit reversal for negative numbers
+    }
+    int rem = 0;
+    while (n != 0) {
+        rem = n % 10;
+        buffer[i] = rem + '0';  // Convert digit to character
+        n = n / 10;
+        i++;
+    }
+
+    buffer[i] = '\0';  // Null-terminate the string
+
+    // Reverse the digits in the buffer
+    int end = i - 1;
+    while (start < end) {
+        char temp = buffer[start];
+        buffer[start] = buffer[end];
+        buffer[end] = temp;
+        start++;
+        end--;
+    }
+
+    write_string(buffer);
+
+    return 0;
 }
+
