@@ -1,3 +1,4 @@
+
 #include <errno.h>
 #include <unistd.h>
 
@@ -24,7 +25,7 @@ write_string(char* s) {
     return (write(1, s, len) < len) ? EOF : 0;
 }
 
-/* Writes n to stdout (without any formatting).
+/* Writes n to stdout (without any formatting).   
  * If no errors occur, it returns 0, otherwise EOF
  */
 int
