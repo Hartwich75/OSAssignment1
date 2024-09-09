@@ -34,5 +34,35 @@ main()
    *    as a comma delimited series of integers
    *-----------------------------------------------------------------*/
 
+  int count = 0;
+  char * prompt = "Press q then return to quit\n";
+
+  write_string(prompt);
+
+  char c;
+  do {
+      c = read_char();
+      if(c < 0) {
+          break;
+      }
+
+      write_char(c);
+      count++;
+  } while(c != 'q');
+
+    write_char('\n');
+  if(c == 'q') {
+
+      write_string("Count = ");
+      write_int(count);
+      write_char('\n');
+      write_string("Collection: ");
+      write_char('\n');
+  }else {
+      write_string("ERROR");
+      write_char('\n');
+      return 1;
+  }
+
   return 0;
 }
