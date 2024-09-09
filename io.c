@@ -29,32 +29,17 @@ write_string(char* s) {
  */
 int
 write_int(int n) {
-    char buffer[12];
-    int i = 0, isNegative = 0;
+    char c;
 
-    if (n == 0) {
-        buffer[i++] = '0';
-    } else {
-        if (n < 0) {
-            isNegative = 1;
-            n = -n;
-        }
-
-        while (n != 0) {
-            buffer[i++] = (n % 10) + '0';
-            n /= 10;
-        }
-
-        if (isNegative) {
-            buffer[i++] = '-';
-        }
-
-        for (int start = 0, end = i - 1; start < end; start++, end--) {
-            char temp = buffer[start];
-            buffer[start] = buffer[end];
-            buffer[end] = temp;
-        }
+    if (n < 0) {
+        if (write(1, "-", 1) != 1) return EOF;
+        n = -n;
     }
 
-    return (write(1, buffer, i) < i) ? EOF : 0;
+    if (n >= 10) {
+        if (write_int(n / 10) == EOF) return EOF;
+    }
+
+    c = (n % 10) + '0';
+    return (write(1, &c, 1) == 1) ? 0 : EOF;
 }
