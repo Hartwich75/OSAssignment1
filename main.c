@@ -46,8 +46,18 @@ void insertNodeAtEnd(Node** head, int value) {
     temp->next = newNode;
     newNode->prev = temp;
 }
-
-
+/**
+ *
+ * @param head head of a doubly linked list
+ * @return the new head
+ */
+Node deleteFromEnd (Node* head) {
+     while (head -> next != NULL)
+             {head = head -> next;}
+        head = head -> prev;
+        head -> next = NULL;
+        return *head;
+}
 
 /**
  * @name  main
@@ -100,6 +110,7 @@ main()
           count++;
       }
       if(c == 'c') {
+          *head = deleteFromEnd(head);
 
       }
 
