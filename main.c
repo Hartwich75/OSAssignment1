@@ -45,9 +45,16 @@ main()
       if(c < 0) {
           break;
       }
+      if(c == 'a') {
 
-      write_char(c);
-      count++;
+      }
+      if(c == 'b') {
+          count++
+      }
+      if(c == 'c') {
+
+      }
+
   } while(c != 'q');
 
     write_char('\n');
