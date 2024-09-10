@@ -26,7 +26,7 @@ void freeList (List* list) {
 }
 
 Node* initNode(int value) {
-    Node* tempNode = (Node*) malloc(sizeof(Node));
+    Node* tempNode = (Node*) malloc(sizeof(Node*));
     tempNode->value = value;
     tempNode->next = NULL;
     tempNode->prev = NULL;
@@ -51,7 +51,7 @@ void printList(Node* head) {
     Node* temp = head;
     while(temp != NULL) {
         write_int(temp->value);
-        write_char(',');
+        if(temp->next != NULL) write_char(',');
         temp = temp->next;
     }
     write_char('\n');
@@ -62,11 +62,11 @@ void printList(Node* head) {
  * @param head head of a doubly linked list
  * @return the new head
  */
-Node deleteFromEnd (Node* head) {
-     while (head -> next != NULL) head = head -> next;
-     head = head -> prev;
-     head -> next = NULL;
-     return *head;
+void deleteFromEnd (Node** head) {
+    if (*head == NULL) return;
+    while ((*head)->next != NULL) head = (*head)->next;
+    head = (*head)->prev;
+    (*head)->next = NULL;
 }
 
 /**
@@ -101,8 +101,7 @@ main()
    *-----------------------------------------------------------------*/
 
   int count = 0;
-  List* collection;
-  Node* head = NULL;
+  Node *head = NULL;
   char * prompt = "Press q then return to quit\n";
 
   write_string(prompt);
@@ -114,28 +113,23 @@ main()
           break;
       }
       if(c == 'a') {
-
+          insertNodeAtEnd(&head, count);
+          count++;
       }
       if(c == 'b') {
           count++;
       }
       if(c == 'c') {
-          *head = deleteFromEnd(head);
-
+          deleteFromEnd(head);
+          count++;
       }
-
   } while(c != 'q');
 
-    write_char('\n');
   if(c == 'q') {
 
-      write_string("Count = ");
-      write_int(count);
-      write_char('\n');
       write_string("Collection: ");
-
+      printList(head);
       write_char('\n');
-      freeList(collection);
   }else {
       write_string("ERROR");
       write_char('\n');
