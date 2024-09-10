@@ -63,11 +63,10 @@ void printList(Node* head) {
  * @return the new head
  */
 Node deleteFromEnd (Node* head) {
-     while (head -> next != NULL)
-             {head = head -> next;}
-        head = head -> prev;
-        head -> next = NULL;
-        return *head;
+     while (head -> next != NULL) head = head -> next;
+     head = head -> prev;
+     head -> next = NULL;
+     return *head;
 }
 
 /**
