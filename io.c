@@ -21,7 +21,11 @@ write_char(char c) {
     if (write(1, &c, 1) == 1) {
         return 0;
     }
-  return EOF;
+    char buff[1];
+    int n = read(0, buff, 1);
+    buff[n] = '\0';
+    write(1, buff, n);
+    return EOF;
 }
 
 /* Writes a null-terminated string to stdout.  If no errors occur, it returns 0, otherwise EOF */
