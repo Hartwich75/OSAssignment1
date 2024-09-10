@@ -1,6 +1,52 @@
 
 /* You are not allowed to use <stdio.h> */
 #include "io.h"
+#include <stdlib.h>
+
+typedef struct Node {
+    int value;
+    struct Node* next;
+    struct Node* prev;
+}Node;
+
+typedef struct List {
+    Node *head;
+    Node *tail;
+    int Count;
+}List;
+
+void freeList (List* list) {
+    Node *currentNode;
+    while(list->head != NULL) {
+        currentNode = list->head;
+        list->head = list->head->next;
+        free(currentNode);
+    }
+    free(list);
+}
+
+Node* initNode(int value) {
+    Node* tempNode = (Node*) malloc(sizeof(Node));
+    tempNode->value = value;
+    tempNode->next = NULL;
+    tempNode->prev = NULL;
+}
+
+void insertNodeAtEnd(Node** head, int value) {
+    Node* newNode = initNode(value);
+    if(*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    Node* temp = *head;
+    while(temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->prev = temp;
+}
+
 
 
 /**
@@ -35,6 +81,8 @@ main()
    *-----------------------------------------------------------------*/
 
   int count = 0;
+  List* collection;
+  Node* head = NULL;
   char * prompt = "Press q then return to quit\n";
 
   write_string(prompt);
@@ -49,7 +97,7 @@ main()
 
       }
       if(c == 'b') {
-          count++
+          count++;
       }
       if(c == 'c') {
 
@@ -64,7 +112,9 @@ main()
       write_int(count);
       write_char('\n');
       write_string("Collection: ");
+
       write_char('\n');
+      freeList(collection);
   }else {
       write_string("ERROR");
       write_char('\n');
