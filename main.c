@@ -46,6 +46,17 @@ void insertNodeAtEnd(Node** head, int value) {
     temp->next = newNode;
     newNode->prev = temp;
 }
+
+void printList(Node* head) {
+    Node* temp = head;
+    while(temp != NULL) {
+        write_int(temp->value);
+        write_char(',');
+        temp = temp->next;
+    }
+    write_char('\n');
+}
+
 /**
  *
  * @param head head of a doubly linked list
