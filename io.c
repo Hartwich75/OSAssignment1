@@ -37,6 +37,7 @@ write_int(int n) {
         n = -n;
     }
 
+    //recursively print each digit
     if (n >= 10) {
         if (write_int(n / 10) == EOF) return EOF;
     }
