@@ -54,7 +54,7 @@ void printList(Node* head) {
         if(temp->next != NULL) write_char(',');
         temp = temp->next;
     }
-    write_char('\n');
+    write_char(';');
 }
 
 /**
