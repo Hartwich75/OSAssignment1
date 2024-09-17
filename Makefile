@@ -1,48 +1,32 @@
 CC = gcc
 
+CCWARNINGS = -W -Wall -Wno-unused-parameter -Wno-unused-variable
+CCOPTS     = -std=c11 -g -O0
 
-CCWARNINGS = -Wall -W
-CCOPT = -std=c11 -g
+CFLAGS = $(CCWARNINGS) $(CCOPTS)
 
-CFLAGS = $(CCWARNINGS) $(CCOPT)
+TEST_SOURCES := check_mm.c mm.c memory_setup.c
+TEST_OBJECTS := $(TEST_SOURCES:.c=.o)
 
-DEMO_SOURCES := io_demo.c io.c
-DEMO_OBJECTS := $(DEMO_SOURCES:.c=.o)
+APP_SOURCES := main.c io.c mm.c memory_setup.c
+APP_OBJECTS := $(APP_SOURCES:.c=.o)
 
-MAIN_SOURCES := main.c io.c
-MAIN_OBJECTS := $(MAIN_SOURCES:.c=.o)
+TEST_EXECUTABLE = malloc_check
+APP_EXECUTABLE  = cmd_int
 
-DEMO_EXECUTABLE = io_demo
-MAIN_EXECUTABLE = cmd_int
+.PHONY: all clean
 
-EXECS = $(DEMO_EXECUTABLE) $(MAIN_EXECUTABLE)
+all: $(APP_EXECUTABLE) $(TEST_EXECUTABLE)
 
-.PHONY: all run-demo run test
-
-all: $(EXECS) 
-
-%.o: %.c
+%.o: %.c mm.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(DEMO_EXECUTABLE): $(DEMO_OBJECTS)
-	$(CC) $(CFLAGS) $(DEMO_OBJECTS) -o $@
+$(TEST_EXECUTABLE): $(TEST_OBJECTS)
+	$(CC) $(CFLAGS) $(TEST_OBJECTS) -o $@ -lcheck -lsubunit -lm
 
-$(MAIN_EXECUTABLE): $(MAIN_OBJECTS)
-	$(CC) $(CFLAGS) $(MAIN_OBJECTS) -o $@
-
-run-demo: $(DEMO_EXECUTABLE)
-	./$(DEMO_EXECUTABLE)
-
-run: $(MAIN_EXECUTABLE)
-	./$(MAIN_EXECUTABLE)
-
-test: $(MAIN_EXECUTABLE)
-	./test.sh
+$(APP_EXECUTABLE): $(APP_OBJECTS)
+	$(CC) $(CFLAGS) $(APP_OBJECTS) -o $@
 
 clean:
-	rm -rf *.o *~  
-
-clean-all: clean
-	rm -rf $(EXECS) 
-
+	rm -rf *o *~ $(TEST_EXECUTABLE) $(APP_EXECUTABLE)
 
